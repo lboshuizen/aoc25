@@ -6,5 +6,5 @@ let readInput (d: int) =
     File.ReadLines(p) |> List.ofSeq
 
 let sw = Stopwatch.StartNew()
-let result = Day01.Solve (readInput 1)
+let result = Day02.Solve (readInput 2)
 printfn "time: %dms\nresult:\n %A" sw.ElapsedMilliseconds result
