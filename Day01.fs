@@ -17,4 +17,4 @@ let part1 = Seq.scan dial 50 >> Seq.filter ((=) 0) >> Seq.length
 
 let part2 = Seq.fold (fun (pos, cnt) mv -> dial pos mv, cnt + countZeros pos mv) (50, 0) >> snd
 
-let Solve: string seq -> int * int = parse >> both part1 part2
+let Solve: string seq -> _ = parse >> bothTP part1 part2

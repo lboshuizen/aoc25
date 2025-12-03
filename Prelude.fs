@@ -3,7 +3,9 @@ module Prelude
 
 open System
 open System.Collections.Generic
+open System.Diagnostics
 open System.Text.RegularExpressions
+open System.Threading.Tasks
 
 let inline flip f a b = f b a
 
@@ -13,6 +15,17 @@ let minus1 = flip (-) 1
 let inline (++) (a, b) (a', b') = (a + a', b + b')
 
 let inline both f g x = (f x, g x)
+
+let timed f a =
+    let sw = Stopwatch.StartNew()
+    let result = f a
+    (result, sw.ElapsedMilliseconds)
+
+let bothTP f g a =
+    let taskF = Task.Run(fun () -> timed f a)
+    let taskG = Task.Run(fun () -> timed g a)
+    Task.WaitAll(taskF, taskG)
+    (taskF.Result, taskG.Result)
 
 let (<|>) = both
 
@@ -232,5 +245,4 @@ module Map =
         |> Seq.chunkBySize size
         |> Seq.map (Seq.map snd >> String.fromChars)
         |> Seq.iter (printfn "%s")
-
         m

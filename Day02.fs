@@ -14,13 +14,12 @@ let repeatedInRange t (lo, hi) =
     let multiplier l = [0..t-1] |> Seq.sumBy (fun i -> pow10 (i*l))
     let candidates l =  seq { pow10 (l-1) .. pow10 l - 1L } |> Seq.map ((*) (multiplier l))
 
-    [ digitLen lo .. digitLen hi ]
-    |> List.filter (fun l -> l%t = 0)
-    |> Seq.collect (fun l -> candidates (l / t) |> Seq.filter (fun d -> d >= lo && d <= hi))
+    [for l in digitLen lo .. digitLen hi do if l%t = 0 then l]
+    |> Seq.collect (fun l -> candidates (l/t) |> Seq.filter (fun d -> d >= lo && d <= hi))
 
 let allRepeated (lo, hi) = [2..digitLen hi] |> Seq.collect (flip repeatedInRange (lo, hi)) |> Seq.distinct
 
 let part1 = Seq.collect (repeatedInRange 2) >> Seq.sum
 let part2 = Seq.collect allRepeated >> Seq.sum
 
-let Solve: string seq -> int64 * int64 = parse >> both part1 part2
+let Solve: string seq -> _ = parse >> bothTP part1 part2
