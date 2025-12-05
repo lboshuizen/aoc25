@@ -2,9 +2,9 @@ module Day04
 
 let parse: string seq -> Set<int * int> = toGrid2d >> Seq.filter (snd >> (=) '@') >> Seq.map fst >> Set.ofSeq
 
-let neighbors rolls pos = around pos |> Seq.filter (flip Set.contains rolls) |> Seq.length
+let neighbors rolls = around >> Seq.filter (flip Set.contains rolls) >> Seq.length
 
-let accessible rolls = rolls |> Set.filter (neighbors rolls >> (>) 4)
+let accessible rolls = Set.filter (neighbors rolls >> (>) 4) rolls
 
 let part1 = accessible >> Set.count
 
