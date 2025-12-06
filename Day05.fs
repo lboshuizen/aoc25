@@ -1,7 +1,6 @@
 module Day05
 
-let parse =
-    splitOnEmpty >> Seq.Tuple >> map2 (List.map (splitOn '-' >> Array.map int64 >> pair), List.map int64)
+let parse = splitOnEmpty >> Seq.Tuple >> map2 (List.map (splitOn '-' >> Array.map int64 >> pair), List.map int64)
 
 let merge ranges =
     let fold acc (lo, hi) =
